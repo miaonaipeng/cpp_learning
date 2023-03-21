@@ -85,5 +85,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-
+*.xml
+*.iml
 cmake-build-debug

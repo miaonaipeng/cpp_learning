@@ -3,4 +3,4 @@ project(cpp_learning)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(cpp_learning main.cpp basic.cpp basic.h)
+add_executable(cpp_learning src/main.cpp src/basic.cpp src/basic.h)
