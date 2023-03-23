@@ -6,24 +6,28 @@
 
 class Log {
 public:
-  // 定义常量增加代码可读性；
-  const int LogLevelError = 0;
-  const int LogLevelWarning = 1;
-  const int LogLevelInfo = 2;
+    // 定义常量增加代码可读性；
+    enum Level {
+        LogLevelError = 0,
+        LogLevelWarning,
+        LogLevelInfo
+    };
 
 private:
-  int m_LogLevel = LogLevelInfo; // 表示所有都应该被打印
+    Level m_LogLevel = LogLevelInfo;// 表示所有都应该被打印
 
 public:
-  // 设置警告级别
-  void SetLevel(int level) { m_LogLevel = level; }
-  // 打印消息
-  void Error(const char *message) {
-    if (m_LogLevel >= LogLevelError) {
-      std::cout << "[ERROR]: " << message << std::endl;
+    // 设置警告级别
+    void SetLevel(Level level) {
+        m_LogLevel = level;
     }
-  }
-  void Warn(const char *message) {
+    // 打印消息
+    void Error(const char *message) {
+        if (m_LogLevel >= LogLevelError) {
+            std::cout << "[ERROR]: " << message << std::endl;
+        }
+    }
+    void Warn(const char *message) {
     if (m_LogLevel >= LogLevelWarning) {
       std::cout << "[WARNING]: " << message << std::endl;
     }
@@ -37,7 +41,7 @@ public:
 
 int main() {
   Log log;
-  log.SetLevel(log.LogLevelError);
+  log.SetLevel(Log::LogLevelError);
   log.Error("hello");
   log.Warn("hello");
   log.Info("hello");
