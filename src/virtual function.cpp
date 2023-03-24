@@ -5,38 +5,41 @@
 #include <iostream>
 using namespace std;
 
-class Shape {// 基类
+// 定义一个抽象类Shape，作为一个接口
+class Shape {
 public:
-    virtual void draw() {// 虚函数
-        cout << "Drawing a shape" << endl;
-    }
+    // 定义一个纯虚函数draw
+    virtual void draw() = 0;
 };
 
-class Circle : public Shape {// 派生类
+// 定义一个抽象类Color，作为另一个接口
+class Color {
 public:
-    void draw() override {// 覆盖虚函数
+    // 定义一个纯虚函数fill
+    virtual void fill() = 0;
+};
+
+// 定义一个派生类Circle，实现Shape和Color两个接口
+
+class Circle : public Shape, public Color {
+public:
+    int radix;
+
+    void draw() override {
         cout << "Drawing a circle" << endl;
     }
-};
 
-class Rectangle : public Shape {// 派生类
-public:
-    void draw() override {// 覆盖虚函数
-        cout << "Drawing a rectangle" << endl;
+    void fill() override {
+        cout << "Filling the circle with red color" << endl;
     }
 };
 
 
 int main() {
-    Shape *ptr; // 基类类型的指针
-    Circle c;   // 派生类对象
-    Rectangle r;// 派生类对象
-
-    ptr = &c;   // 指向圆形对象
-    ptr->draw();// 调用圆形对象的draw函数
-
-    ptr = &r;   // 指向矩形对象
-    ptr->draw();// 调用矩形对象的draw函数
-
+    // 创建一个Circle对象
+    Circle c;
+    // 调用draw和fill函数
+    c.draw();
+    c.fill();
     return 0;
 }
