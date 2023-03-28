@@ -40,46 +40,56 @@ using namespace std;
 class Solution {
 public:
     vector<int> searchRange(vector<int> &nums, int target) {
-        int leftBorder = GetLeftBorder(nums, target);
-        int rightBorder = GetRightBorder(nums, target);
-        // 情况一
-        if (leftBorder == -2 || rightBorder == -2) return {-1, -1};
-        // 情况三
-        if (rightBorder - leftBorder > 1) return {leftBorder + 1, rightBorder - 1};
-        // 情况二
-        return {-1, -1};
+        int len = nums.size();
+        if (len == 0) {
+            vector<int> v = {-1, -1};
+            return v;
+        }
+        int firstPosition = findFirstPosition(nums, target);
+        if (firstPosition == -1) {
+            vector<int> v = {-1, -1};
+            return v;
+        }
+        int lastPosition = findLastPosition(nums, target);
+        vector<int> v = {firstPosition, lastPosition};
+        return v;
     }
 
 private:
-    static int GetRightBorder(const vector<int> &nums, int target) {
+    int findLastPosition(vector<int> &nums, int target) {
         int left = 0;
         int right = nums.size() - 1;
-        int rightBorder = -2;
-        while (left <= right) {
-            int middle = left + ((right - left) / 2);
-            if (nums[middle] > target) {
-                right = middle - 1;
-            } else {// 当nums[middle] == target的时候，更新left，这样才能得到target的右边界
-                left = middle + 1;
-                rightBorder = left;
-            }
-        }
-        return rightBorder;
-    }
-    static int GetLeftBorder(const vector<int> &nums, int target) {
-        int left = 0;
-        int right = nums.size() - 1;// 定义target在左闭右闭的区间里，[left, right]
-        int leftBorder = -2;        // 记录一下leftBorder没有被赋值的情况
-        while (left <= right) {
-            int middle = left + ((right - left) / 2);
-            if (nums[middle] >= target) {// 寻找左边界，就要在nums[middle] == target的时候更新right
-                right = middle - 1;
-                leftBorder = right;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] < target) {
+                left = mid + 1;
+            } else if (nums[mid] == target) {
+                left = mid;
             } else {
-                left = middle + 1;
+                right = mid - 1;
             }
         }
-        return leftBorder;
+
+
+        return -1;
+    }
+    int findFirstPosition(vector<int> &nums, int target) {
+        int left = 0;
+        int right = nums.size() - 1;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] < target) {
+                left = mid + 1;
+            } else if (nums[mid] == target) {
+                right = mid;
+            }// nums[mid + 1]不是target出现的第一个位置
+            else {
+                right = mid - 1;
+            }
+
+
+            return left;
+        }
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
