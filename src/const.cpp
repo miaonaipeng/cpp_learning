@@ -5,25 +5,32 @@
 using namespace std;
 
 //引用使用的场景，通常用来修饰形参
-void showValue(const int &v) {
-    //v += 10;
-    cout << v << endl;
-}
+
+class Demo {
+    int x;
+
+public:
+    void set_data(int a);//非const成员函数
+    int get_data() const;//const成员函数
+};
+
 
 int main() {
+    const int MAX_AGE = 90;
 
-    //int& ref = 10;  引用本身需要一个合法的内存空间，因此这行错误
-    //加入const就可以了，编译器优化代码，int temp = 10; const int& ref = temp;
-    const int &ref = 10;
+    int *const a = new int;
+    *a = 0;
 
-    //ref = 100;  //加入const后不可以修改变量
-    cout << ref << endl;
+    cout << *a << endl;
+    delete a;
 
-    //函数中利用常量引用防止误操作修改实参
-    int a = 10;
-    showValue(a);
+    Demo d1;              //非const对象
+    d1.set_data(10);      //可以调用非const成员函数
+    cout << d1.get_data();//可以调用const成员函数
 
-    system("pause");
+    const Demo d2{};//const对象
+    // d2.set_data(20);      //错误，不能调用非const成员函数
+    cout << d2.get_data();//可以调用const成员函数
 
     return 0;
 }
