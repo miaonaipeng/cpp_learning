@@ -1,72 +1,91 @@
-//
-// Created by naipe on 2023/3/30.
-//
 #include "iostream"
-using namespace std;
+#include "string"
 
-class Person {
+//class String {
+//private:
+//    char *m_Buffer;
+//    unsigned int m_Size;
+//
+//public:
+//    String(const char *string) {
+//        m_Size = strlen(string);
+//        m_Buffer = new char[m_Size + 1];
+//        memcpy(m_Buffer, string, m_Size + 1);
+//    }
+//    friend std::ostream &operator<<(std::ostream &stream, const String &string);
+//    ~String() {
+//        delete m_Buffer;
+//    }
+//    char &operator[](unsigned int index) {
+//        return char;
+//    }
+//};
+//
+//// overload operator to print string
+//
+//std::ostream &operator<<(std::ostream &stream, const String &string) {
+//    stream << string.m_Buffer;
+//    return stream;
+//}
+//
+//int main() {
+//    String string = "cherno";
+//    String second = string;
+//    std::cout << string << std::endl;
+//    std::cout << second << std::endl;
+//
+//    return 0;
+//}
+
+#include <cstring>
+
+class MyString {
 public:
-    Person() {
-        cout << "无参构造函数!" << endl;
-        mAge = 0;
+    MyString(const char *src) {
+        if (src == nullptr) {
+            str = nullptr;
+        } else {
+            str = new char[strlen(src) + 1];
+            strcpy(str, src);
+        }
     }
-    Person(int age) {
-        cout << "有参构造函数!" << endl;
-        mAge = age;
+    // copy constructor to deep copy
+    MyString(const MyString &other) {
+        if (other.str == nullptr) {
+            str = nullptr;
+        } else {
+            str = new char[strlen(other.str) + 1];
+            strcpy(str, other.str);
+        }
     }
-    Person(const Person& p) {
-        cout << "拷贝构造函数!" << endl;
-        mAge = p.mAge;
+
+    MyString &operator=(const MyString &other) {
+        if (this == &other) {
+            return *this;
+        }
+
+        delete[] str;
+        if (other.str == nullptr) {
+            str = nullptr;
+        } else {
+            str = new char[strlen(other.str) + 1];
+            strcpy(str, other.str);
+        }
+        return *this;
     }
-    //析构函数在释放内存之前调用
-    ~Person() {
-        cout << "析构函数!" << endl;
-    }
-public:
-    int mAge;
+    // 其他成员函数
+
+private:
+    char *str;
 };
 
-//1. 使用一个已经创建完毕的对象来初始化一个新对象
-void test01() {
-
-    Person man(100); //p对象已经创建完毕
-    Person newman(man); //调用拷贝构造函数
-    Person newman2 = man; //拷贝构造
-
-    //Person newman3;
-    //newman3 = man; //不是调用拷贝构造函数，赋值操作
+void func() {
+    MyString s1("hello");
+    MyString s2(s1);// 浅拷贝，s1和s2的str指向同一块内存
 }
-
-//2. 值传递的方式给函数参数传值
-//相当于Person p1 = p;
-void doWork(Person p1) {}
-void test02() {
-    Person p; //无参构造函数
-    doWork(p);
-}
-
-//3. 以值方式返回局部对象
-Person doWork2()
-{
-    Person p1;
-    cout << (int *)&p1 << endl;
-    return p1;
-}
-
-void test03()
-{
-    Person p = doWork2();
-    cout << (int *)&p << endl;
-}
-
+// 当func()执行完毕后，s1和s2的析构函数都会被调用，释放相同的内存，导致双重释放的问题。
 
 int main() {
-
-    //test01();
-    //test02();
-    test03();
-
-    system("pause");
-
+    func();
     return 0;
 }
