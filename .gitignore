@@ -89,3 +89,5 @@ dkms.conf
 *.iml
 cmake-build-debug
 build
+!/copy-operator.dSYM/
+*.DSYM
