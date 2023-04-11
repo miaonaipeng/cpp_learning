@@ -24,27 +24,42 @@ Output: false
  flowerbed[i] is 0 or 1. 
  There are no two adjacent flowers in flowerbed. 
  0 <= n <= flowerbed.length 
- 
+
 
  Related Topics 贪心 数组 👍 543 👎 0
 
 */
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
 using namespace std;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-    bool canPlaceFlowers(vector<int>& flowerbed, int n) {
-
+    bool canPlaceFlowers(vector<int> &flowerbed, int n) {
+        int count = 0;
+        int size = flowerbed.size();
+        // 排除开头和结尾
+        for (int i = 0; i < size && count < n; ++i) {
+            if (flowerbed[i] == 0) {
+                int prev = (i == 0 ? 0 : flowerbed[i - 1]);
+                int next = (i == size - 1 ? 0 : flowerbed[i + 1]);
+                if (prev == 0 && next == 0){
+                    ++count;
+                    flowerbed[i] = 1;
+                }
+            }
+        }
+        return count == n;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
 
 
-int main(){
+int main() {
     Solution solution;
-    
+    vector<int> v{1,0,0,0,0,1};
+    solution.canPlaceFlowers(v, 2);
+    cin.get();
     return 0;
 }

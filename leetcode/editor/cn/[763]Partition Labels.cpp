@@ -38,22 +38,36 @@ Output: [10]
  Related Topics 贪心 哈希表 双指针 字符串 👍 931 👎 0
 
 */
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
 using namespace std;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
     vector<int> partitionLabels(string s) {
-
+        vector<int> res;
+        int n = s.size();
+        int start = 0, end = 0;
+        vector<int> last(26, -1);
+        for (int i = 0; i < n; ++i) {
+            last[s[i] - 'a'] = i;
+        }
+        for (int i = 0; i < n; ++i) {
+            end = max(end, last[s[i] - 'a']);
+            if (i == end){
+                res.push_back(end - start + 1);
+                start = end + 1;
+            }
+        }
+        return res;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
 
 
-int main(){
+int main() {
     Solution solution;
-    
+
     return 0;
 }

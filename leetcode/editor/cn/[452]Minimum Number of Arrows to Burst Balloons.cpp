@@ -55,22 +55,38 @@ Explanation: The balloons can be burst by 2 arrows:
  Related Topics 贪心 数组 排序 👍 766 👎 0
 
 */
-#include<iostream>
-#include<vector>
+#include <algorithm>
+#include <iostream>
+#include <vector>
 using namespace std;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-    int findMinArrowShots(vector<vector<int>>& points) {
-
+    int findMinArrowShots(vector<vector<int>> &points) {
+        int n = points.size();
+        if (n == 0) return 0;
+        sort(points.begin(), points.end(), [](vector<int> &a, vector<int> &b) {
+            return a[1] < b[1];
+        });
+        int arrow = points[0][1];
+        int count = 1;
+        for (int i = 1; i < n; ++i) {
+            if (arrow >= points[i][0]) {
+                // 区间重叠，共用同一根箭
+                continue;
+            } else {
+                arrow = points[i][1];
+                ++count;
+            }
+        }
+        return count;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
 
 
-int main(){
+int main() {
     Solution solution;
-    
     return 0;
 }
