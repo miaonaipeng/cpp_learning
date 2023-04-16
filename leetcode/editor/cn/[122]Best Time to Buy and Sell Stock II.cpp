@@ -50,22 +50,29 @@ stock to achieve the maximum profit of 0.
  Related Topics 贪心 数组 动态规划 👍 2075 👎 0
 
 */
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
 using namespace std;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-    int maxProfit(vector<int>& prices) {
-
+    int maxProfit(vector<int> &prices) {
+        int profit = 0;
+        int size = prices.size();
+        for (int i = 1; i < size; ++i) {
+            if (prices[i] > prices[i - 1]) {
+                profit += prices[i] - prices[i - 1];
+            }
+        }
+        return profit;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
 
 
-int main(){
+int main() {
     Solution solution;
-    
+
     return 0;
 }
