@@ -72,7 +72,7 @@ public:
 
 private:
     // 辅助函数：检查字符串s的子串是否为回文字符串
-    bool isPalindrome(const std::string& s, int left, int right) {
+    static bool isPalindrome(const std::string& s, int left, int right) {
         while (left < right) {
             if (s[left] != s[right]) {
                 return false;
